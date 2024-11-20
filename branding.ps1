@@ -1,31 +1,34 @@
 Param(
-    [Parameter(Mandatory=$true)]
+	[Parameter(Mandatory=$true)]
 	[ValidateSet("Install", "Uninstall")]
 	[String[]]
 	$Mode
-)
-# Author: Warren Sherwen
-# Verison: 1.0
+	)
+	# Author: Warren Sherwen
+	# Verison: 1.0
 
-# Defines the log file location.
-$Logfile = "$env:windir\Temp\Logs\companybranding.log"
+	# Defines the log file location.
+	$Logfile = "$env:windir\Temp\Logs\companybranding.log"
 
-# LogWrite Function.
-Function LogWrite{
-    Param ([string]$logstring)
-    Add-content $Logfile -value $logstring
-    write-output $logstring
-}
+	# LogWrite Function.
+	Function LogWrite{
+	   Param ([string]$logstring)
+	   Add-content $Logfile -value $logstring
+	   write-output $logstring
+	}
 
-function Get-TimeStamp {
-	return "[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)
-}
+	function Get-TimeStamp {
+		return "[{0:dd/MM/yy} {0:HH:mm:ss}]" -f (Get-Date)
+	}
 
-if (!(Test-Path "$env:windir\Temp\Logs\")) {
+	if (!(Test-Path "$env:windir\Temp\Logs\"))
+	{
 	   mkdir $env:windir\Temp\Logs
 	   LogWrite "$(Get-TimeStamp): Company Branding script has started."
 	   LogWrite "$(Get-TimeStamp): Log directory created."
-	} else {
+	}
+	else
+	{
 		LogWrite "$(Get-TimeStamp): Company Branding script has started."
 		LogWrite "$(Get-TimeStamp): Log directory exists."
 	}
@@ -47,10 +50,11 @@ $LockscreenLocation = "C:\Background\Lockscreen.jpg"
 
 If ($Mode -eq "Install") {
     if (!(Test-Path "c:\Background")) {
-        LogWrite "$(Get-TimeStamp): Creating background folder."
-	    mkdir C:\Background -Force
-	}else{
-        LogWrite "$(Get-TimeStamp): Background folder exists."
+	   mkdir C:\Background -Force
+       LogWrite "$(Get-TimeStamp): directory created."
+	}
+	else{
+        LogWrite "$(Get-TimeStamp): Background directory exists."
 	}
 
     New-Item -Path $RegistryKeyPath -Force -ErrorAction SilentlyContinue
